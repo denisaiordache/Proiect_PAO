@@ -3,7 +3,6 @@ package Managing;
 import java.util.*;
 
 public class Student extends Person{
-    private static int IdNumber = 0;
     private String phoneNumber;
     private int group;
     private  Map<String, ArrayList<Grade>> grades;
@@ -12,7 +11,7 @@ public class Student extends Person{
         super(name, age, email);
         this.phoneNumber = phoneNumber;
         this.group = group;
-        this.IdNumber++;
+
         //TODO : initialization for map - done
         this.grades = new HashMap<String,ArrayList<Grade>>();
         ArrayList<Grade> purtare = new ArrayList<Grade>();
@@ -21,13 +20,6 @@ public class Student extends Person{
 
     }
 
-    public static int getIdNumber() {
-        return IdNumber;
-    }
-
-    public static void setIdNumber(int idNumber) {
-        IdNumber = idNumber;
-    }
 
     public String getPhoneNumber() {
         return phoneNumber;

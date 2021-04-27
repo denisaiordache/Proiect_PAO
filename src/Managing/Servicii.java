@@ -1,16 +1,22 @@
 package Managing;
 
 
+import CSVFiles.Audit;
+
 import java.lang.reflect.Array;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class Servicii {
+
+    Audit audit = Audit.getInstance();
 
 
     //1. metoda pentru afisarea informatiilor legate de un student (fara note)
     public void afisare_student(Student s)
     {
 
+        audit.writeInfo("afisare_student");
         System.out.println(s);
         System.out.println("Phone number: " + s.getPhoneNumber() + "\nGroup: " + s.getGroup());
     }
@@ -18,7 +24,9 @@ public class Servicii {
     //2.metoda pentru afisarea notelor unui student
     public void afisare_note(Student s)
     {
+
         afisare_student(s);
+        audit.writeInfo("afisare_note");
         for (String key: s.getGrades().keySet())
         {
             System.out.println(key);
@@ -30,7 +38,7 @@ public class Servicii {
     //3.  metoda pentru calculul mediei totale a unui student
     public double medie_totala(Student s)
     {
-
+        audit.writeInfo("medie_totala");
         double medie = 0;
         int n = 0;
         for (String key: s.getGrades().keySet())
@@ -53,6 +61,7 @@ public class Servicii {
     //4. este promovat sau nu
     public boolean promoted(Student s)
     {
+        audit.writeInfo("promoted");
         double medie = medie_totala(s);
         if (Math.round(medie) >= 5)
         {
@@ -65,6 +74,7 @@ public class Servicii {
     //5. stergere student din catalog
     public void delete_student(GradeBook gradeBook, Student s)
     {
+        audit.writeInfo("delete_student");
         int idx = gradeBook.getStudents().indexOf(s);
         gradeBook.getStudents().remove(idx);
     }
@@ -74,6 +84,7 @@ public class Servicii {
     //6. Afisare informatii despre un curs
     public void afis_curs(Course c)
     {
+        audit.writeInfo("afis_curs");
         System.out.println("Course name: " + c.getCourseName());
         System.out.println("Course teacher: " +c.getCourseTeacher());
     }
@@ -81,6 +92,7 @@ public class Servicii {
     //7. afisare nr studenti inscrisi la un curs
     public int students_course(Course c, GradeBook gradeBook)
     {
+        audit.writeInfo("students_course");
         int nr = 0;
         ArrayList<Student> students = gradeBook.getStudents();
         for (Student s: students)
@@ -96,6 +108,7 @@ public class Servicii {
     //8. adaugare nota la un anumit curs
     public void addGrade(Student s, Course c, Grade g)
     {
+        audit.writeInfo("addGrade");
         s.getGrades().get(c.getCourseName()).add(g);
     }
 
@@ -103,6 +116,7 @@ public class Servicii {
     //10%, 15%, 20%, 25%
     public void increaseSalary(Teacher t)
     {
+        audit.writeInfo("increaseSalary");
         String f = t.getFunction();
         if (f.equals("doctorand"))
         {
@@ -132,6 +146,7 @@ public class Servicii {
     //10. afisare informatii profesor
     public void afis_profesor(Teacher t)
     {
+        audit.writeInfo("afis_profesor");
         System.out.println(t);
         System.out.println("Salary: " + t.getSalary() + "\nFunction: " +t.getFunction());
     }
@@ -140,6 +155,7 @@ public class Servicii {
     //11. medie per grupa
     public double medie_grupa(Group g)
     {
+        audit.writeInfo("medie_grupa");
         GradeBook catalog = g.getGradeBook();
         double sum = 0;
         for(Student s: catalog.getStudents())
@@ -151,6 +167,7 @@ public class Servicii {
 
     //12. ierarhie a facultatilor in functie de medie
     public String statut(Faculty f) {
+        audit.writeInfo("statut");
         ArrayList<Group> groups = f.getGroups();
         double sum = 0;
         for (Group g : groups) {
@@ -173,6 +190,7 @@ public class Servicii {
 
     public ArrayList<Double> medii_facultate(Faculty f)
     {
+        audit.writeInfo("medii_facultate");
         ArrayList<Group> groups = f.getGroups();
         ArrayList<Double>  medii =  new ArrayList<Double>();
         for (Group g : groups)
@@ -190,6 +208,7 @@ public class Servicii {
     //14. metoda ce determina daca un student e la taxa/buget
     public String repartizare(Student s, Faculty f)
     {
+        audit.writeInfo("repartizare");
         ArrayList<Double> medii = medii_facultate(f);
         double medie_student = medie_totala(s);
         int idx = medii.indexOf(medie_student);
@@ -218,7 +237,8 @@ public class Servicii {
     //15. afisare catalog
     public void afis_catalog(GradeBook gb)
     {
-       gb.getStudents().sort(sortStudentByLastNameAndAfterByFirstName);
+        audit.writeInfo("afis_catalog");
+        gb.getStudents().sort(sortStudentByLastNameAndAfterByFirstName);
         for(Student s: gb.getStudents())
         {
             afisare_note(s);
@@ -229,6 +249,7 @@ public class Servicii {
     //16. inscriere student la un anume curs
     public void inscriere_curs(Student s, Course c)
     {
+        audit.writeInfo("inscriere_curs");
         Map<String, ArrayList<Grade>> grades = s.getGrades();
         if(grades.containsKey(c.getCourseName()))
         {
@@ -244,6 +265,7 @@ public class Servicii {
     //17. afisare informatii facultate
     public void afis_fac(Faculty f)
     {
+        audit.writeInfo("afis_fac");
         System.out.println("Faculty name: " + f.getName());
         System.out.println("\nCity: " + f.getCity());
         for (Group g: f.getGroups())
@@ -256,8 +278,14 @@ public class Servicii {
     //18. afisare informatii grupa
     public void afis_gr (Group g)
     {
+        audit.writeInfo("afis_gr");
         System.out.println("Group Id: " + g.getGroupId());
         afis_catalog(g.getGradeBook());
+    }
+
+    public void inchidere_fisier()
+    {
+        audit.inchidere();
     }
 
 

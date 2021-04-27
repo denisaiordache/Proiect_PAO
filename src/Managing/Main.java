@@ -1,10 +1,13 @@
 package Managing;
 
+import CSVFiles.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
+        /*
         Student s1 = new Student("Ionescu Maria",22,"mionescu@gmail.com","0760214564",231);
         Teacher t1 = new Teacher("Ionescu Andreea",34,"aionescu@gmail.com",2400.2, "lector");
         Course c1 = new Course("Statistics",t1);
@@ -80,6 +83,23 @@ public class Main {
         Course c4 = new Course("Algebra liniara",t4);
 
         servicii_student.inscriere_curs(s1,c4);
+        */
+
+        //Teste citire fisier csv
+
+        Servicii serv = new Servicii();
+        Citire ob_citire = new Citire();
+        Student s = ob_citire.read_students().get(0);
+
+        serv.afisare_note(s);
+        System.out.println(serv.medie_totala(s));
+
+        Faculty fac1 = new Faculty("Facultatea de Matematica si Informatica","Bucuresti");
+        serv.afis_fac(fac1);
+        serv.inchidere_fisier();
+
+
+
 
 
 
